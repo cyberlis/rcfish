@@ -231,8 +231,7 @@ public class RCFishCommand implements  CommandExecutor{
 				sender.sendMessage(ChatColor.AQUA+"[RCFish]"+ChatColor.BLUE+" Не установлен варп для рыбалки");
 				return;
 			}
-			this.main.joinStarted = true;
-			this.main.getServer().broadcastMessage(ChatColor.AQUA+"[RCFish]"+ChatColor.BLUE+" Рыбалка начнется через 5мин. Вы можете присоедениться /rcfish join.");
+			this.main.startJoinFishing();
 		}
 	}
 	

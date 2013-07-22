@@ -12,11 +12,11 @@ import java.util.ArrayList;
 
 public class FishingTimesLoop extends BukkitRunnable {
 
-	private Main plugin;
+	private Main main;
 	private RCFishConfig config;
 	
-	public FishingTimesLoop(Main plugin, RCFishConfig config){
-		this.plugin = plugin;
+	public FishingTimesLoop(Main main, RCFishConfig config){
+		this.main = main;
 		this.config = config;
 	}
 	@Override
@@ -30,10 +30,11 @@ public class FishingTimesLoop extends BukkitRunnable {
 				date = format.parse(time_str);
 				conf_time.setTime(date);
 				if((cur_time.get(Calendar.HOUR_OF_DAY) == conf_time.get(Calendar.HOUR_OF_DAY)) && (cur_time.get(Calendar.MINUTE) == conf_time.get(Calendar.MINUTE))){
-					this.plugin.log.severe("[RCFIS] Начтало время xxx " + String.valueOf(conf_time.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(conf_time.get(Calendar.MINUTE)));
+					this.main.log.severe("[RCFISH] Started time xxx " + String.valueOf(conf_time.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(conf_time.get(Calendar.MINUTE)));
+					this.main.startJoinFishing();
 				}
 			} catch (ParseException e) {
-				this.plugin.log.severe("[RCFIS] Bad time format in a config file.");
+				this.main.log.severe("[RCFISH] Bad time format in a config file.");
 			}	
 			
 		}

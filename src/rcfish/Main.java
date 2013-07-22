@@ -2,6 +2,7 @@ package rcfish;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -20,6 +21,9 @@ public class Main extends JavaPlugin{
 	public Boolean joinStarted = false;
 	public Boolean fishingStarted = false;
 	public RCFishCommand commandl;
+	public BukkitTask mainTask;
+	public BukkitTask countdownTask;
+	public int countdown = 0;
 	
 	@Override
 	public void onEnable(){
@@ -28,7 +32,7 @@ public class Main extends JavaPlugin{
 		config.loadConfig();
 		commandl = new RCFishCommand(this, config);
 		getCommand("rcfish").setExecutor(commandl);
-		
+		mainTask = new FishingTimesLoop(this, config).runTaskTimer(this, 0L, 1200L);
 		rcfishl = new RCFishListener(this, config);
 		getServer().getPluginManager().registerEvents(rcfishl, this);
 	}
@@ -50,6 +54,27 @@ public class Main extends JavaPlugin{
 		fishPlayers.remove(pl);
 	}
 	
+	public void startJoinFishing(){
+		if(!joinStarted && !fishingStarted){
+			joinStarted = true;
+			countdown = config.countdownMinutes;
+			countdownTask = getServer().getScheduler().runTaskTimer(this, new Runnable() {
+				public void run() {
+					if(countdown != 0){
+						getServer().broadcastMessage(ChatColor.AQUA+"[RCFish]"+ChatColor.BLUE+" Рыбалка начнется через "+String.valueOf(countdown)+" мин. Вы можете присоедениться /rcfish join.");
+						countdown--;
+					} else {
+						countdownTask.cancel();
+						startFishing();
+					}
+				
+				}
+			}, 0L, 1200L);
+		} else {
+			log.severe("[RCFish]  JoinFishing already started!");
+		}
+	}
+	
 	public void startFishing(){
 		if(this.fishPlayers.size()<config.minimumPlayers){
 			getServer().broadcastMessage(ChatColor.AQUA+"[RCFish]"+ChatColor.BLUE+" Недостаточно игроков для начала рыбалки.");
@@ -65,7 +90,7 @@ public class Main extends JavaPlugin{
 			}
 			fishingStarted = true;
 			joinStarted = false;
-			
+			countdownTask = null;
 			
 			getServer().broadcastMessage(ChatColor.AQUA+"[RCFish]"+ChatColor.BLUE+" Рыбалка началась. Закидывайте свои удочки!");
 		}

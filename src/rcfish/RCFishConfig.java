@@ -25,6 +25,7 @@ public class RCFishConfig {
 	protected String presentItem = "264";
 	protected String fishingWarp = "0,0,0";
 	protected Integer presentItemAmount = 1;
+	protected Integer countdownMinutes = 5;
 	
 	public void loadConfig(){
 		FileConfiguration config = YamlConfiguration.loadConfiguration(new File("plugins/RCFish/config.yml"));
@@ -32,6 +33,7 @@ public class RCFishConfig {
 		fishingTimes = new HashSet<String>(config.getStringList("RCFish.fishingTimes"));
 		minimumPlayers = config.getInt("RCFish.minimumPlayers", minimumPlayers);
 		winFishCount = config.getInt("RCFish.winFishCount", winFishCount);
+		countdownMinutes = config.getInt("RCFish.countdownMinutes", countdownMinutes);
 		presentItem = config.getString("RCFish.presentItem", presentItem);
 		fishingWarp = config.getString("RCFish.fishingWarp", fishingWarp);
 		presentItemAmount = config.getInt("RCFish.presentItemAmount", presentItemAmount);
@@ -45,6 +47,7 @@ public class RCFishConfig {
 		config.set("RCFish.fishingTimes", new ArrayList<String>(fishingTimes));
 		config.set("RCFish.minimumPlayers", minimumPlayers);
 		config.set("RCFish.winFishCount", winFishCount);
+		config.set("RCFish.countdownMinutes", countdownMinutes);
 		config.set("RCFish.presentItem", presentItem);
 		config.set("RCFish.fishingWarp", fishingWarp);
 		config.set("RCFish.presentItemAmount", presentItemAmount);
