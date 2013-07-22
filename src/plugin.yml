@@ -1,0 +1,8 @@
+name: RCFish
+main: rcfish.Main
+version: 1.0
+author: cyber_lis
+load: STARTUP
+commands:
+  rcfish:
+    usage: 'Для помощи введите /rcfish help'
