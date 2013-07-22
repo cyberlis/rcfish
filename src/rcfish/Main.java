@@ -58,6 +58,7 @@ public class Main extends JavaPlugin{
 		if(!joinStarted && !fishingStarted){
 			joinStarted = true;
 			countdown = config.countdownMinutes;
+			countdownTask = null;
 			countdownTask = getServer().getScheduler().runTaskTimer(this, new Runnable() {
 				public void run() {
 					if(countdown != 0){

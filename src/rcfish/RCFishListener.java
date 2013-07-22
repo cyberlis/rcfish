@@ -1,15 +1,20 @@
 package rcfish;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerFishEvent.State;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class RCFishListener implements Listener{
 	private Main main;
@@ -57,7 +62,7 @@ public class RCFishListener implements Listener{
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
 	public void onFishQuitServer(PlayerQuitEvent event){
 		Player pl = event.getPlayer();
-		if(this.main.fishPlayers.containsKey(pl)){
+		if(this.main.fishPlayers.containsKey(pl)  && this.main.fishingStarted){
 			this.main.getServer().broadcastMessage(ChatColor.AQUA+"[RCFish]"+ChatColor.BLUE+" Из рыбалки выбыл "+pl.getName());
 			this.main.fishPlayers.remove(pl);
 			if((this.main.fishPlayers.size())<=1 && this.main.fishingStarted){
@@ -70,13 +75,24 @@ public class RCFishListener implements Listener{
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
 	public void onFishKickServer(PlayerKickEvent event){
 		Player pl = event.getPlayer();
-		if(this.main.fishPlayers.containsKey(pl)){
+		if(this.main.fishPlayers.containsKey(pl)  && this.main.fishingStarted ){
 			this.main.getServer().broadcastMessage(ChatColor.AQUA+"[RCFish]"+ChatColor.BLUE+" Из рыбалки выбыл "+pl.getName());
 			this.main.fishPlayers.remove(pl);
 			if((this.main.fishPlayers.size())<=1 && this.main.fishingStarted){
 				this.main.stopFishing();
 				this.main.getServer().broadcastMessage(ChatColor.AQUA+"[RCFish]"+ChatColor.BLUE+" Недостаточно игроков для продолжения рыбалки.");
 			}
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
+	public void onFishPlayerRespawn(PlayerRespawnEvent event){
+		Player pl = event.getPlayer();
+		if(this.main.fishPlayers.containsKey(pl) && this.main.fishingStarted){
+			Location teleport_loc = config.getWarpLocation();
+			pl.getInventory().addItem(new ItemStack(346, 1));
+			event.setRespawnLocation(teleport_loc);
+			pl.teleport(teleport_loc);
 		}
 	}
 }

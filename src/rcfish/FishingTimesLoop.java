@@ -30,7 +30,7 @@ public class FishingTimesLoop extends BukkitRunnable {
 				date = format.parse(time_str);
 				conf_time.setTime(date);
 				if((cur_time.get(Calendar.HOUR_OF_DAY) == conf_time.get(Calendar.HOUR_OF_DAY)) && (cur_time.get(Calendar.MINUTE) == conf_time.get(Calendar.MINUTE))){
-					this.main.log.severe("[RCFISH] Started time xxx " + String.valueOf(conf_time.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(conf_time.get(Calendar.MINUTE)));
+					this.main.log.severe("[RCFISH] Started time from config " + String.valueOf(conf_time.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(conf_time.get(Calendar.MINUTE)));
 					this.main.startJoinFishing();
 				}
 			} catch (ParseException e) {

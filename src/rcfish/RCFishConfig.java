@@ -88,9 +88,9 @@ public class RCFishConfig {
 			this.main.log.severe("[RCFISH] Bad value of presentItem in a config file!");
 		}
 		if(itemData!=0 && itemId!=0)
-			tmp_stack =  new ItemStack(itemId, 1, itemData.byteValue());
+			tmp_stack =  new ItemStack(itemId, presentItemAmount, itemData.byteValue());
 		else if(itemData==0 && itemId!=0)
-			tmp_stack =  new ItemStack(itemId, 1);
+			tmp_stack =  new ItemStack(itemId, presentItemAmount);
 		return tmp_stack;
 	}
 }
