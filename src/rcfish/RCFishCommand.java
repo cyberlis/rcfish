@@ -30,7 +30,7 @@ class ValueComparator implements Comparator<Player> {
         if(x.equals(y)){
         	return a.getName().compareTo(b.getName());
         } else {
-        	return x.compareTo(y);
+        	return x.compareTo(y)>0?-1:1;
         }
     }
 }

@@ -99,6 +99,7 @@ public class Main extends JavaPlugin{
 	
 					@Override
 					public void run() {
+						getServer().broadcastMessage(ChatColor.AQUA+"[RCFish]"+ChatColor.BLUE+" Рыбалка сильно затянулась. Автоматическая остановка рыбалки.");
 						stopFishing();
 					}
 					
