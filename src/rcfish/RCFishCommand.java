@@ -75,6 +75,23 @@ public class RCFishCommand implements  CommandExecutor{
 				return false;
 			}
 		}
+		else if (args.length==2 && args[0].equalsIgnoreCase("kick")){
+			if((player != null && player.isOp()) || sender instanceof ConsoleCommandSender){
+				for(Player pl: this.main.fishPlayers.keySet()){
+					if(args[1].equals(pl.getName())){
+						this.main.fishPlayers.remove(pl);
+						if((this.main.fishPlayers.size())<=1 && this.main.fishingStarted){
+							this.main.stopFishing();
+							this.main.getServer().broadcastMessage(ChatColor.AQUA+"[RCFish]"+ChatColor.BLUE+" Недостаточно игроков для продолжения рыбалки.");
+						}
+						this.main.getServer().broadcastMessage(ChatColor.AQUA+"[RCFish]"+ChatColor.BLUE+" Игрок "+pl.getName()+" был исключен из рыбалки администратором.");
+						return true;
+					}
+				}
+			} else {
+				return false;
+			}
+		}
 		else if (args.length == 1 && args[0].equalsIgnoreCase("save"))
 		{
 
@@ -147,8 +164,7 @@ public class RCFishCommand implements  CommandExecutor{
 	{
 		sender.sendMessage(ChatColor.AQUA+"/rcfish join "+ChatColor.WHITE+"-"+ChatColor.BLUE+" присоединиться к рыбалке.");
 		sender.sendMessage(ChatColor.AQUA+"/rcfish leave "+ChatColor.WHITE+"-"+ChatColor.BLUE+" покинуть рыбалку.");
-		sender.sendMessage(ChatColor.AQUA+"/rcfish list"+ChatColor.WHITE+"-"+ChatColor.BLUE+" список игроков.");
-		sender.sendMessage(ChatColor.AQUA+"/rcfish stats"+ChatColor.WHITE+"-"+ChatColor.BLUE+" своя статистика.");
+		sender.sendMessage(ChatColor.AQUA+"/rcfish stats"+ChatColor.WHITE+"-"+ChatColor.BLUE+" Список участников и статистика.");
 	}
 	
 	private void joinFishing(CommandSender sender)

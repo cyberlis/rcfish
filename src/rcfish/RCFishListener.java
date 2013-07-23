@@ -69,6 +69,9 @@ public class RCFishListener implements Listener{
 				this.main.stopFishing();
 				this.main.getServer().broadcastMessage(ChatColor.AQUA+"[RCFish]"+ChatColor.BLUE+" Недостаточно игроков для продолжения рыбалки.");
 			}
+		} else if(this.main.fishPlayers.containsKey(pl)  && this.main.joinStarted){
+			this.main.getServer().broadcastMessage(ChatColor.AQUA+"[RCFish]"+ChatColor.BLUE+" Из рыбалки выбыл "+pl.getName());
+			this.main.fishPlayers.remove(pl);
 		}
 	}
 	
@@ -82,6 +85,9 @@ public class RCFishListener implements Listener{
 				this.main.stopFishing();
 				this.main.getServer().broadcastMessage(ChatColor.AQUA+"[RCFish]"+ChatColor.BLUE+" Недостаточно игроков для продолжения рыбалки.");
 			}
+		} else if(this.main.fishPlayers.containsKey(pl)  && this.main.joinStarted){
+			this.main.getServer().broadcastMessage(ChatColor.AQUA+"[RCFish]"+ChatColor.BLUE+" Из рыбалки выбыл "+pl.getName());
+			this.main.fishPlayers.remove(pl);
 		}
 	}
 	

@@ -105,7 +105,7 @@ public class Main extends JavaPlugin{
 					
 				}, config.fishingMaxTime);
 			
-			getServer().broadcastMessage(ChatColor.AQUA+"[RCFish]"+ChatColor.BLUE+" Рыбалка началась. Закидывайте свои удочки!");
+			getServer().broadcastMessage(ChatColor.AQUA+"[RCFish]"+ChatColor.BLUE+" Рыбалка началась. Закидывайте свои удочки! Для победы нужно поймать "+String.valueOf(config.winFishCount)+" рыб.");
 		}
 	}
 	
@@ -118,7 +118,10 @@ public class Main extends JavaPlugin{
 		this.fishPlayers.clear();
 		fishingStarted = false;
 		joinStarted = false;
-		fishingTask = null;
+		if(fishingTask!=null){
+			fishingTask.cancel();
+			fishingTask = null;
+		}
 	}
 	
 	public void givePresent(Player pl){
