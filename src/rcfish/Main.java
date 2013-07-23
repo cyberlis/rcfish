@@ -23,6 +23,7 @@ public class Main extends JavaPlugin{
 	public RCFishCommand commandl;
 	public BukkitTask mainTask;
 	public BukkitTask countdownTask;
+	public BukkitTask fishingTask;
 	public int countdown = 0;
 	
 	@Override
@@ -91,7 +92,17 @@ public class Main extends JavaPlugin{
 			}
 			fishingStarted = true;
 			joinStarted = false;
+			countdownTask.cancel();
 			countdownTask = null;
+			if (config.fishingMaxTime!=0)
+				fishingTask = getServer().getScheduler().runTaskLater(this, new Runnable(){
+	
+					@Override
+					public void run() {
+						stopFishing();
+					}
+					
+				}, config.fishingMaxTime);
 			
 			getServer().broadcastMessage(ChatColor.AQUA+"[RCFish]"+ChatColor.BLUE+" Рыбалка началась. Закидывайте свои удочки!");
 		}
@@ -106,6 +117,7 @@ public class Main extends JavaPlugin{
 		this.fishPlayers.clear();
 		fishingStarted = false;
 		joinStarted = false;
+		fishingTask = null;
 	}
 	
 	public void givePresent(Player pl){
@@ -113,7 +125,7 @@ public class Main extends JavaPlugin{
 		if(tmp_item != null)
 			pl.getInventory().addItem(tmp_item);
 		else
-			log.severe("[RCFish] Проблема с итемом подарка в конфиге.");
+			log.severe("[RCFish] Problem with present item from config.");
 	}
 
 }

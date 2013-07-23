@@ -26,6 +26,7 @@ public class RCFishConfig {
 	protected String fishingWarp = "0,0,0";
 	protected Integer presentItemAmount = 1;
 	protected Integer countdownMinutes = 5;
+	protected Integer fishingMaxTime = 12000;
 	
 	public void loadConfig(){
 		FileConfiguration config = YamlConfiguration.loadConfiguration(new File("plugins/RCFish/config.yml"));
@@ -37,6 +38,7 @@ public class RCFishConfig {
 		presentItem = config.getString("RCFish.presentItem", presentItem);
 		fishingWarp = config.getString("RCFish.fishingWarp", fishingWarp);
 		presentItemAmount = config.getInt("RCFish.presentItemAmount", presentItemAmount);
+		fishingMaxTime = config.getInt("RCFish.fishingMaxTime", fishingMaxTime);
 		
 		this.saveConfig();
 	}
@@ -51,6 +53,7 @@ public class RCFishConfig {
 		config.set("RCFish.presentItem", presentItem);
 		config.set("RCFish.fishingWarp", fishingWarp);
 		config.set("RCFish.presentItemAmount", presentItemAmount);
+		config.set("RCFish.fishingMaxTime", fishingMaxTime);
 		try{
 			config.save(new File("plugins/RCFish/config.yml"));
 		} catch(IOException e){

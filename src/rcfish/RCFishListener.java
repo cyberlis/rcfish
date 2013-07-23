@@ -85,14 +85,18 @@ public class RCFishListener implements Listener{
 		}
 	}
 	
-	@EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onFishPlayerRespawn(PlayerRespawnEvent event){
-		Player pl = event.getPlayer();
+		final Player pl = event.getPlayer();
 		if(this.main.fishPlayers.containsKey(pl) && this.main.fishingStarted){
-			Location teleport_loc = config.getWarpLocation();
+			final Location teleport_loc = config.getWarpLocation();
 			pl.getInventory().addItem(new ItemStack(346, 1));
 			event.setRespawnLocation(teleport_loc);
-			pl.teleport(teleport_loc);
+			this.main.getServer().getScheduler().runTaskLater(this.main, new Runnable(){
+				public void run(){
+					pl.teleport(teleport_loc);
+				}
+			}, 2L);
 		}
 	}
 }
